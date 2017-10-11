@@ -40,12 +40,18 @@ public class FrontCompression {
         } else if (corpus.length() == 0) {
             return "";
         }
-
         /*
          * Complete this function.
          */
-
-        return "";
+        String[] compressedString = corpus.split("\n");
+        int prefixLength = 0;
+        String stringToReturn = 0 + " " + compressedString[0].substring(0) + "\n";
+        for (int i = 1; i < compressedString.length; i++) {
+            prefixLength = longestPrefix(compressedString[i - 1], compressedString[i]);
+            stringToReturn += prefixLength +  " " + compressedString[i].substring(prefixLength)
+                    + "\n";
+        }
+        return stringToReturn;
     }
 
     /**
@@ -67,8 +73,24 @@ public class FrontCompression {
         /*
          * Complete this function.
          */
-
-        return "";
+        String[] decompressStringArr = corpus.split("\n");
+        String stringToReturn = "AA" + "\n";
+        int prefixLength = 0;
+        int previousPrefixLength = 0;
+        String prefix = "AA";
+        for (int i = 1; i < decompressStringArr.length; i++) {
+            previousPrefixLength = prefixLength;
+            prefixLength = Integer.parseInt(decompressStringArr[i].substring(0, 1));
+            if (prefixLength == 0) {
+                prefix = decompressStringArr[i].substring(2);
+            }
+            if (prefixLength > previousPrefixLength) {
+                prefix = decompressStringArr[i].substring(2);
+            }
+            stringToReturn += prefix + decompressStringArr[i].substring(1).trim() + "\n";
+        }
+        System.out.println(stringToReturn);
+        return stringToReturn;
     }
 
     /**
@@ -82,7 +104,13 @@ public class FrontCompression {
         /*
          * Complete this function.
          */
-        return 0;
+        int prefixLength = 0;
+        for (int i = 0; i < firstString.length() && i < secondString.length(); i++) {
+                if (firstString.charAt(i) == secondString.charAt(i)) {
+                    prefixLength++;
+                }
+        }
+        return prefixLength;
     }
 
     /**
